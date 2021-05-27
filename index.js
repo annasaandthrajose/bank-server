@@ -13,7 +13,15 @@ app.post('/',(req,res)=>{
 app.post('/register',(req,res)=>{
     console.log(req.body);
     const result=dataService.register(req.body.uname,req.body.acno,req.body.pswd)//call register function
-    console.log(res.send(result.message))
+    res.status(result.statusCode).json(result);
+    //console.log(res.status(result.statusCode).json(result))
+})
+//POST For login
+app.post('/login',(req,res)=>{
+    console.log(req.body);
+    const result= dataService.login(req.body.acno,req.body.pswd)//call register function
+    res.status(result.statusCode).json(result);
+    //console.log(res.status(result.statusCode).json(result))
 })
 //PUT UPDATE/MODIFY
 app.put('/',(req,res)=>{

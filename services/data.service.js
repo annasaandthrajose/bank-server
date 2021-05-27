@@ -1,3 +1,4 @@
+let currentUser;
 let accountDetails={
     1000:{acno:1000,name:"userone",balance:50000,password:"user1"},
     1001:{acno:1002,name:"usertwo",balance:5000,password:"user2"},
@@ -12,6 +13,7 @@ let accountDetails={
         {
           //alert("User exists,please login")
             return {
+              statusCode:422,
             status:false,
             message:"user exists,please login"
             }
@@ -27,6 +29,7 @@ let accountDetails={
           }
           
           return{
+            statusCode:200,
               status:true,
               message:"sucessfully registerd"
           }
@@ -34,4 +37,44 @@ let accountDetails={
           
         }
       }
-      module.exports={register}
+     const login=(acno,pswd)=>{
+  
+    let users=accountDetails
+    if(acno in users)
+    {
+      if(pswd==users[acno]["password"])
+      {
+        currentUser=users[acno]["username"]
+        
+        return {
+          statusCode:200,
+          status: true,
+          
+          message:"sucessfully login"
+        }
+      
+    }
+      else{
+        
+        
+        return {
+          statusCode:422,
+          status: false,
+          
+          message:"incorrect password"
+        }
+      }
+    }
+    else{
+      
+      return {
+        statusCode:422,
+        status: false,
+        
+        message:"invalid account"
+      }
+    }
+  
+  }
+      module.exports={register,
+        login}
