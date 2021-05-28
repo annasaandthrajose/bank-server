@@ -1,6 +1,13 @@
 const express=require('express')
+const session=require('express-session');
 const dataService=require('./services/data.service');//import data.service.js
 const app=express();
+app.use(session({
+    secret: 'randomsecurestring',
+    resave:false,
+    saveUninitialized:false
+})
+    )
 app.use(express.json());
 //GET READ
 app.get('/',(req,res)=>{
@@ -10,9 +17,10 @@ app.get('/',(req,res)=>{
 app.post('/',(req,res)=>{
     res.send("THIS IS A post METHOD")
 })
+//post for register
 app.post('/register',(req,res)=>{
     console.log(req.body);
-    const result=dataService.register(req.body.uname,req.body.acno,req.body.pswd)//call register function
+    const result=dataService.register(req,req.body.uname,req.body.acno,req.body.pswd)//call register function
     res.status(result.statusCode).json(result);
     //console.log(res.status(result.statusCode).json(result))
 })
@@ -20,6 +28,20 @@ app.post('/register',(req,res)=>{
 app.post('/login',(req,res)=>{
     console.log(req.body);
     const result= dataService.login(req.body.acno,req.body.pswd)//call register function
+    res.status(result.statusCode).json(result);
+    //console.log(res.status(result.statusCode).json(result))
+})
+//POST FOR DEPOSIT
+app.post('/deposit',(req,res)=>{
+    console.log(req.body);
+    const result= dataService.deposit(req.body.acno,req.body.pswd,req.body.amt)//call register function
+    res.status(result.statusCode).json(result);
+    //console.log(res.status(result.statusCode).json(result))
+})
+//POST FOR WITHDRAW
+app.post('/withdraw',(req,res)=>{
+    console.log(req.body);
+    const result= dataService.withdraw(req.body.acno,req.body.pswd,req.body.amt)//call register function
     res.status(result.statusCode).json(result);
     //console.log(res.status(result.statusCode).json(result))
 })
