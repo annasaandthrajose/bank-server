@@ -1,9 +1,9 @@
 let currentUser;
 let accountDetails={
     1000:{acno:1000,name:"userone",balance:50000,password:"user1"},
-    1001:{acno:1002,name:"usertwo",balance:5000,password:"user2"},
-    1002:{acno:1003,name:"userthree",balance:10000,password:"user3"},
-    1003:{acno:1004,name:"userfour",balance:6000,password:"user4"}
+    1001:{acno:1001,name:"usertwo",balance:5000,password:"user2"},
+    1002:{acno:1002,name:"userthree",balance:10000,password:"user3"},
+    1003:{acno:1003,name:"userfour",balance:6000,password:"user4"}
     
   
     }
@@ -44,6 +44,7 @@ let accountDetails={
     {
       if(pswd==users[acno]["password"])
       {
+        
         req.session.currentUser=users[acno]
         
         return {
@@ -77,6 +78,14 @@ let accountDetails={
   
   }
   const deposit=(acno,pswd,amt)=>{
+    if(!req.session.currentUser)
+    {
+    return{
+       statusCode:402,
+        status: false,
+        message:"please login"
+      }
+    }
     var amount=parseInt(amt)
     let user=accountDetails;
     if(acno in user)
