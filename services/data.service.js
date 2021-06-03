@@ -69,42 +69,63 @@ const register = (uname, acno, pswd) => {
 
   // }
 }
-const login = (req, acno, pswd) => {
+const login = (req, acno, password) => {
+var acno=parseInt(acno)
 
-  let users = accountDetails
-  if (acno in users) {
-    if (pswd == users[acno]["password"]) {
+return db.User.findOne({ acno,password })
+.then(user=>{
+  if(user){
+    req.session.currentUser = user;
+    return {
+      statusCode: 200,
+      status: true,
 
-      req.session.currentUser = users[acno]
-
-      return {
-        statusCode: 200,
-        status: true,
-
-        message: "sucessfully login"
-      }
-
-    }
-    else {
-
-
-      return {
-        statusCode: 422,
-        status: false,
-
-        message: "incorrect password"
-      }
+      message: "sucessfully login"
     }
   }
-  else {
-
+  else{
     return {
       statusCode: 422,
       status: false,
 
-      message: "invalid account"
+      message: "invalid credentials"
     }
   }
+})
+  // let users = accountDetails
+  // if (acno in users) {
+  //   if (pswd == users[acno]["password"]) {
+
+  //     req.session.currentUser = users[acno]
+
+  //     return {
+  //       statusCode: 200,
+  //       status: true,
+
+  //       message: "sucessfully login"
+  //     }
+
+  //   }
+  //   else {
+
+
+  //     return {
+  //       statusCode: 422,
+  //       status: false,
+
+  //       message: "incorrect password"
+  //     }
+  //   }
+  // }
+  // else {
+
+  //   return {
+  //     statusCode: 422,
+  //     status: false,
+
+  //     message: "invalid account"
+  //   }
+  // }
 
 }
 const deposit = (acno, pswd, amt) => {

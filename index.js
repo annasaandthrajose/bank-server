@@ -55,8 +55,11 @@ app.post('/register',(req,res)=>{
 //POST For login
 app.post('/login',(req,res)=>{
     //console.log(req.body);
-    const result= dataService.login(req,req.body.acno,req.body.pswd)//call register function
-    res.status(result.statusCode).json(result);
+     dataService.login(req,req.body.acno,req.body.pswd)//call register function
+     .then(result=>{
+        res.status(result.statusCode).json(result);
+     })
+    //res.status(result.statusCode).json(result);
     //console.log(res.status(result.statusCode).json(result))
 })
 //POST FOR DEPOSIT
