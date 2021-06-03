@@ -38,14 +38,18 @@ app.get('/',(req,res)=>{
     res.status(401).send("THIS IS A GET METHOD")
 })
 //POST CREATE
-app.post('/',(req,res)=>{
+app.post('/',(_req,res)=>{
     res.send("THIS IS A post METHOD")
 })
 //post for register
 app.post('/register',(req,res)=>{
     //console.log(req.body);
-    const result=dataService.register(req,req.body.uname,req.body.acno,req.body.pswd)//call register function
-    res.status(result.statusCode).json(result);
+    dataService.register(req.body.uname,req.body.acno,req.body.pswd)//call register function
+    .then(result=>{
+        res.status(result.statusCode).json(result)
+        //res.status(200).send("sucess")
+    })
+    //res.status(result.statusCode).json(result);
     //console.log(res.status(result.statusCode).json(result))
 })
 //POST For login
@@ -71,17 +75,23 @@ app.post('/withdraw',authMiddleware,(req,res)=>{
     //console.log(res.status(result.statusCode).json(result))
 })
 //PUT UPDATE/MODIFY
-app.put('/',(req,res)=>{
+app.put('/',(_req,res)=>{
     res.send("THIS IS A put METHOD")
 })
 //PATCH UPDATE OR MODIFY PARTIALLY
-app.patch('/',(req,res)=>{
+app.patch('/',(_req,res)=>{
     res.send("THIS IS A patch METHOD")
 })
 
 //DELETE
-app.delete('/',(req,res)=>{
+app.delete('/',(_req,res)=>{
     res.send("THIS IS A delete METHOD")
 })
 
 app.listen(3000,()=>{console.log("server started at port 3000");})
+
+
+
+
+
+
