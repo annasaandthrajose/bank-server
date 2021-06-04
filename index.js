@@ -66,15 +66,22 @@ app.post('/login',(req,res)=>{
 app.post('/deposit',authMiddleware,(req,res)=>{
     //console.log(req.session.currentUser);
     console.log(req.body);
-    const result= dataService.deposit(req.body.acno,req.body.pswd,req.body.amt)//call register function
+    dataService.deposit(req.body.acno,req.body.pswd,req.body.amt)//call register function
+    .then(result=>{
     res.status(result.statusCode).json(result);
+    })
+   // res.status(result.statusCode).json(result);
     //console.log(res.status(result.statusCode).json(result))
 })
 //POST FOR WITHDRAW
 app.post('/withdraw',authMiddleware,(req,res)=>{
     //console.log(req.body);
-    const result= dataService.withdraw(req.body.acno,req.body.pswd,req.body.amt)//call register function
+     dataService.withdraw(req.body.acno,req.body.pswd,req.body.amt)//call register function
+     .then(result=>{
     res.status(result.statusCode).json(result);
+
+     })
+    
     //console.log(res.status(result.statusCode).json(result))
 })
 //PUT UPDATE/MODIFY
